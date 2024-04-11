@@ -7,18 +7,6 @@ from portfolio.models import User
 import secrets
 from portfolio import app, db, bcrypt
 
-#app = Flask(__name__)
-#login_manager = LoginManager()
-#login_manager.init_app(app)
-stripe.api_key = 'sk_live_daa92e0433bb02644eeeed30de44c1cb55ac12d7'
-#app.config['SECRET_KEY'] = '361840c28c03f7721cae23e428f6dca5'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-#db = SQLAlchemy(app)
-#bcrypt = Bcrypt(app)
-#login_manager = LoginManager(app)
-#login_manager.login_view = 'login'
-#login_manager.login_message_category = 'info'
-
 
 @app.route('/')
 @app.route('/home')
