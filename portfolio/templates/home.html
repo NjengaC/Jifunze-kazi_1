@@ -1,31 +1,35 @@
 {% extends "layout.html" %}
-{% block content %}    
-    <div class="container">
-        <header>
-	    <div class="kichwa">
-            <h1> Welcome to Vue <br> HOMEPAGE</h1>
-	    </div>
-            <nav>
-                <ul id="reg">
-                        <li><a href="{{ url_for('login') }}">Login</a></li>
-                        <li id=><a href="{{ url_for('register') }}">Register</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-                <section class = ship>
-                    <!-- Background image will be set here -->
-                    <h2>Ship your parcels with ease!</h2>
-                    <p class="sign_up">Sign up now to get started.</p>
-                </section>
-                <section class="companies">
-                    <h2 class=>Click Below to view available companies</h2>
-                    <button id="companies" onclick="showCompanies()">View Companies</button>
-                    <ul id="company-list" style="display: none;">
-                        <!-- List of available companies will be displayed here -->
-                    </ul>
-                </section>
-        </main>
+{% block content %}
+<header>
+  <div class="kichwa">
+    <h1> Welcome to Vue HOMEPAGE</h1>
+    <nav id="reg">
+      <ul>
+        <li><a href="{{ url_for('send_parcel') }}">Request</a></li>
+        <li><a href="{{ url_for('send_parcel') }}">Tracking</a></li>
+        <li><a href="{{ url_for('about') }}">Support</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="ship" class="companies">
+    <!-- Background image will be set here -->
+    <h2>Ship your parcels with ease!</h2>
+    <br><br>
+    <p class="sign_up">Sign up now to get started.</p>
+    <div class="button-container">
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div>
+      <h2>Click Below to view available companies</h2>
+      <button id="companies" onclick="showCompanies()">View Companies</button>
+      <ul id="company-list" style="display: none;">
+        <!-- List of available companies will be displayed here -->
+      </ul>
+    </div>
+  </section>
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock content %}

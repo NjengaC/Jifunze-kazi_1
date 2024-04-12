@@ -1,12 +1,3 @@
-.container {
-    background-color: #fff;
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 label {
     font-weight: bold;
 }
@@ -39,4 +30,14 @@ button[type="submit"]:hover {
 
 .error-message {
     color: red;
+}
+#reg ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+#reg ul li {
+  margin-right: 20px;
 }
