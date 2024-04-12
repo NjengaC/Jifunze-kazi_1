@@ -20,7 +20,18 @@
         <input type="text" name="tracking_number" placeholder="Enter Tracking Number" required><br>
         <button type="submit">Track</button>
     </form>
-    <div id="map"> MAPs HERE</div>
+    <!-- Map container -->
+    <!-- Search form -->
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Enter a location">
+        <button type="submit">Search</button>
+    </form>
+    <div id="map" style="height: 400px;"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Your custom JavaScript -->
+    <script src="../static/scripts/script.js"></script>
 
 </body>
 </html>

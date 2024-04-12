@@ -6,7 +6,7 @@ from portfolio.forms import  RegistrationForm, LoginForm
 from portfolio.models import User
 import secrets
 from portfolio import app, db, bcrypt
-
+from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 @app.route('/home')
@@ -27,9 +27,14 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
-        db.session.commit()
-        flash('Account created', 'success')
-        return redirect(url_for('login'))
+        try:
+            db.session.commit()
+            flash('Account created', 'success')
+            return redirect(url_for('login'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username already exists. Please choose a different username.', 'danger')
+            return redirect(url_for('register'))
     return render_template('register1.html', title='Register', form=form)
 
 
