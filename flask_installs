@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Install Flask and related packages
+pip install Flask
+pip install Flask-WTF
+pip install Flask-Login
+pip install Flask-Bcrypt
+pip install Flask-SQLAlchemy
+pip install Stripe
