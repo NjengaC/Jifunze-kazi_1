@@ -35,7 +35,7 @@ def register():
             db.session.rollback()
             flash('Username already exists. Please choose a different username.', 'danger')
             return redirect(url_for('register'))
-    return render_template('register1.html', title='Register', form=form)
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
