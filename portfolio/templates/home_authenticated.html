@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authenticated Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body class="contain">
-    <div class="container">
-        <header>
-            <!-- Header content for authenticated users -->
-            <h1>Welcome back, {{ current_user.username }}!</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
+{% extends "layout.html" %}
+{% block content %}
+<div class="contain">
         <main>
             <!-- Main content for authenticated users -->
             <section class="authenticated-content">
@@ -32,7 +16,5 @@
             </section>
             <!-- Additional sections can be added here as needed -->
         </main>
-    </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+</div>
+{% endblock content %}

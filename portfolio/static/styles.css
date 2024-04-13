@@ -60,6 +60,15 @@ main {
   margin: auto;
   text-align: center;
 }
+
+footer {
+  display:inline-block;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
 .logo {
   max-width: 100px;
   top:5px;
@@ -120,6 +129,10 @@ container {
   background:    -moz-linear-gradient(#648880, #293f50);
   background:         linear-gradient(#648880, #293f50);
 }
+sider {
+	display: inline-block;
+	margin 0 40px;
+}
 #company-list {
   list-style-type: none;
   padding: 0;
@@ -157,10 +170,4 @@ form {
   height: auto;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.danger {
-	color: red;
-}
-.success {
-	color: green;
 }

@@ -1,15 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-        <header>
-            <div class="kichwa">
-            <h1> Log with your account details <br></h1>
-            <nav>
-                <ul id="reg">
-                    <li id=><a href="{{ url_for('register') }}">Register</a></li>
-                </ul>
-            </nav>
-            </div>
-        </header>
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}

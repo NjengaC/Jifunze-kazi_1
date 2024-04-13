@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='profiles.css') }}">
-</head>
-<body class="contain">
+{% extends "layout.html" %}
+{% block content %}
     <div></div>
     <div class="container">
         <h1>Edit Profile</h1>
@@ -27,5 +20,4 @@
         </form>
         <a href="/" class="home-link"><button>Home</button></a>
     </div>
-</body>
-</html>
+{% endblock content %}

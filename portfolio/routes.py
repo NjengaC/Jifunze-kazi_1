@@ -2,7 +2,7 @@ from flask import render_template, flash, request, redirect, url_for, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import json
 import stripe
-from portfolio.forms import  RegistrationForm, LoginForm
+from portfolio.forms import  RegistrationForm, LoginForm, UpdateAccountForm
 from portfolio.models import User
 import secrets
 from portfolio import app, db, bcrypt
@@ -62,12 +62,20 @@ def logout():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
+    form = UpdateAccountForm()
     if request.method == 'GET':
-        # Your logic for handling GET requests goes here
-        return render_template('edit_profile.html')
+        form.email.data = current_user.email
+        form.username = current_user.username
     elif request.method == 'POST':
-        # Your logic for handling POST requests goes here
-        return render_template('edit_profile.html')
+        if form.validate_on_submit():
+            current_user.email = form.email.data
+            current_user.username = form.username.data
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            current_user.password = hashed_password
+            db.session.commit()
+            flash('Your account has been updated successfully!', 'success')
+            return redirect(url_for('home'))
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
 
 @app.route('/send_parcel')
 def send_parcel():
