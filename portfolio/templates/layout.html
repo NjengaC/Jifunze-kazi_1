@@ -60,11 +60,31 @@
                         <li class="list-group-item list-group-item-light"><a href="{{ url_for('register_rider') }}">Settings</a></li>
                         <li class="list-group-item list-group-item-light dropdown">
                             <a class="dropdown-toggle" href="#" role="button" id="riderPanelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Rider's Panel
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="riderPanelDropdown">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role.name == 'rider' %}
+                            My Parcels
+                        {% else %}
+                            Rider's Panel
+                        {% endif %}
+                    {% else %}
+                        Rider's Panel
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="riderPanelDropdown">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role.name == 'rider' %}
+                            <!-- Dropdown content for rider -->
+                            <a class="dropdown-item" href="#">View Parcels</a>
+                            <a class="dropdown-item" href="#">Edit Profile</a>
+                        {% else %}
+                            <!-- Dropdown content for non-riders -->
+                            <a class="dropdown-item" href="{{ url_for('login_rider') }}">Login</a>
+                            <a class="dropdown-item" href="{{ url_for('register_rider') }}">Register</a>
+                        {% endif %}
+                    {% else %}
                                 <a class="dropdown-item" href="{{ url_for('login_rider') }}">Login</a>
                                 <a class="dropdown-item" href="{{ url_for('register_rider') }}">Register</a>
+                    {% endif %}
                             </div>
                         </li>
                         <li class="list-group-item list-group-item-light"><a href="{{ url_for('register_rider') }}">Notifications</a></li>

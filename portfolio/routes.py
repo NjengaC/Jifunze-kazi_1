@@ -25,7 +25,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, role='user')
         db.session.add(user)
         try:
             db.session.commit()
@@ -109,7 +109,8 @@ def register_rider():
             vehicle_type=form.vehicle_type.data,
             vehicle_registration=form.vehicle_registration.data,
             area_of_operation=form.area_of_operation.data,
-            password=hashed_password
+            password=hashed_password,
+            role='rider'
         )
         db.session.add(new_rider)
         try:
