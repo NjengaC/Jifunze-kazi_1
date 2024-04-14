@@ -2,8 +2,8 @@ from flask import render_template, flash, request, redirect, url_for, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import json
 import stripe
-from portfolio.forms import  RegistrationForm, LoginForm, UpdateAccountForm
-from portfolio.models import User
+from portfolio.forms import LoginRiderForm, RegistrationForm, LoginForm, UpdateAccountForm, RiderRegistrationForm
+from portfolio.models import User, Rider
 import secrets
 from portfolio import app, db, bcrypt
 from sqlalchemy.exc import IntegrityError
@@ -25,7 +25,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, role='user')
         db.session.add(user)
         try:
             db.session.commit()
@@ -65,7 +65,7 @@ def edit_profile():
     form = UpdateAccountForm()
     if request.method == 'GET':
         form.email.data = current_user.email
-        form.username = current_user.username
+        form.username.data = current_user.username
     elif request.method == 'POST':
         if form.validate_on_submit():
             current_user.email = form.email.data
@@ -97,6 +97,48 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/register_rider', methods=['GET', 'POST'])
+def register_rider():
+    form = RiderRegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_rider = Rider(
+            name=form.name.data,
+            contact_number=form.contact_number.data, 
+            email=form.email.data,
+            vehicle_type=form.vehicle_type.data,
+            vehicle_registration=form.vehicle_registration.data,
+            area_of_operation=form.area_of_operation.data,
+            password=hashed_password,
+            role='rider'
+        )
+        db.session.add(new_rider)
+        try:
+            db.session.commit()
+            flash('Rider registration successful!', 'success')
+            return redirect(url_for('login_rider'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username already exists. Please choose a different username.', 'danger')
+            return redirect(url_for('register_rider'))
+    return render_template('register_rider.html', title='Register Rider', form=form)
+
+@app.route('/login_rider', methods=['GET', 'POST'])
+def login_rider():
+    form = LoginRiderForm()
+    if form.validate_on_submit():
+        rider = Rider.query.filter_by(contact_number=form.contact_number.data).first()
+        if rider:
+            if bcrypt.check_password_hash(rider.password, form.password.data):
+                login_user(rider)
+                flash('Rider login successful!', 'success')
+                return render_template('rider_dashboard.html', title='Rider\'s dashboard')
+            else:
+                flash('Invalid password. Please try again.', 'danger')
+        else:
+            flash('Rider not found. Please check your contact number.', 'danger')
+
+    return render_template('login_rider.html', title='Rider Login', form=form)
 #if __name__ == "__main__":
 #    app.secret_key = '361840c28c03f7721cae23e428f6dca5'
 #    app.run(debug=True)

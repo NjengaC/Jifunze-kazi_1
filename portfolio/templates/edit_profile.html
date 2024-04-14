@@ -1,23 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div></div>
-    <div class="container">
-        <h1>Edit Profile</h1>
-        <form action="#" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="{{ current_user.username }}" required><br><br>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ current_user.email }}" required><br><br>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
-            
-            <button type="submit">Update Profile</button>
-        </form>
-        <a href="/" class="home-link"><button>Home</button></a>
-    </div>
-{% endblock content %}
+<div class="content-section">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Edit Profile</legend>
+            <div class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {{ form.username(class="form-control form-control-lg") }}
+                {% for error in form.username.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {{ form.email(class="form-control form-control-lg") }}
+                {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {{ form.password(class="form-control form-control-lg") }}
+                {% for error in form.password.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.confirm_password.label(class="form-control-label") }}
+                {{ form.confirm_password(class="form-control form-control-lg") }}
+                {% for error in form.confirm_password.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
