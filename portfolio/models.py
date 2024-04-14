@@ -14,17 +14,16 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-<<<<<<< HEAD
     password = db.Column(db.String(100), nullable=False)
 
     def __str__(self):
         return f"User('{self.username}', '{self.email}', '{self.password}', '{self.image_file}')"
-=======
     password = db.Column(db.String(60), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
     def __str__(self):
         return f"User('{self.username}', '{self.email}', '{self.password}')"
+
 
 class Rider(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,4 +39,30 @@ class Rider(db.Model, UserMixin):
 
     def __repr__(self):
         return f"Rider('{self.name}', '{self.contact_number}', '{self.vehicle_type}', '{self.area_of_operation}', '{self.availability}')"
->>>>>>> 13854cdbacaf913f48b45ede5bae576870a8a0db
+
+
+class Parcel(db.Model):
+    parcel_id = db.Column(db.Integer, primary_key=True)
+    parcel_name = db.Column(db.String(255), nullable=False)
+    sender_id = db.Column(db.Integer, nullable=False)
+    sender_name = db.Column(db.String(100), nullable=False)
+    receiver_id = db.Column(db.Integer)
+    receiver_name = db.Column(db.String(100))
+    pickup_location = db.Column(db.String(255), nullable=False)
+    delivery_location = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.String(20), nullable=False)
+    pickup_time = db.Column(db.TIMESTAMP)
+    delivery_time = db.Column(db.TIMESTAMP)
+
+    def __repr__(self):
+        return f"Parcel('{self.parcel_name}', '{self.sender_name}', '{self.receiver_name}', '{self.status}')"
+
+
+class Admin(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+    def __repr__(self):
+        return f"Admin('{self.username}', '{self.email}')"
