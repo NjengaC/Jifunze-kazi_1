@@ -42,13 +42,13 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: #333;
   padding: 5px 10px;
   border: 1px solid #333;
-  border-radius: 5px;
   float: right;
 }
-
+.list-group ul li a {
+	color: lightblue;
+}
 nav ul li a:hover {
   background-color: #333;
   color: #fff;
@@ -93,17 +93,17 @@ section.companies {
   text-align: center;
 }
 
-a {
+#reg a {
   padding: 10px 20px;
   background-color: #ffcc99;
-  color: #fff;
+  color: black;
   border: solid;
   border-radius: 20px;
   cursor: pointer;
   margin: 10px;
 }
 
-a:hover {
+#reg a:hover {
   background-color: #333;
   color: #fff;
 }

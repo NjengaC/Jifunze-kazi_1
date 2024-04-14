@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, Optional
 from flask_login import current_user
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -34,3 +35,27 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('User with this email is exists, please choose another one')
+
+class RiderRegistrationForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(),
+		       Length(min=2, max=100)])
+    contact_number = StringField('Contact Number', validators=[DataRequired(),
+                                 Regexp(r'^[0-9]{10}$',
+                                 message='Please enter a valid 10-digit phone number')])
+    email = StringField('Email', validators=[Email()])
+    vehicle_type = StringField('Vehicle Type', validators=[DataRequired(),
+                               Length(min=2, max=50)])
+    vehicle_registration = StringField('Vehicle Registration',
+                                       validators=[DataRequired(),
+				       Length(min=2, max=50)])
+    area_of_operation = StringField('Area of Operation',
+				    validators=[DataRequired(),
+                                    Length(min=2, max=100)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+class LoginRiderForm(FlaskForm):
+    contact_number = StringField('Contact Number', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
