@@ -47,7 +47,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return render_template('home_authenticated.html', username=user.username)
+            return render_template('home_authenticated.html', user=user)
         else:
             flash('Login Unsuccessful, please check you email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -132,7 +132,7 @@ def login_rider():
             if bcrypt.check_password_hash(rider.password, form.password.data):
                 login_user(rider)
                 flash('Rider login successful!', 'success')
-                return render_template('rider_dashboard.html', title='Rider\'s dashboard')
+                return render_template('rider_dashboard.html', title='Rider\'s dashboard', user=rider)
             else:
                 flash('Invalid password. Please try again.', 'danger')
         else:
