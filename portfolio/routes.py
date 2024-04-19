@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 import json
 import stripe
 from portfolio.forms import LoginRiderForm, RegistrationForm, LoginForm, UpdateAccountForm, RiderRegistrationForm
-from portfolio.models import User, Rider
+from portfolio.models import User, Rider, Parcel
 import secrets
 from portfolio import app, db, bcrypt
 from sqlalchemy.exc import IntegrityError
@@ -11,6 +11,8 @@ from sqlalchemy.exc import IntegrityError
 @app.route('/')
 @app.route('/home')
 def home():
+    if current_user.is_authenticated:
+        return render_template('home_authenticated.html', title='Home', user=current_user)
     return render_template('home.html', title='Home')
 
 @app.route('/companies')
@@ -41,7 +43,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return render_template('home_authenticated.html')
+        return render_template('home_authenticated.html', user=current_user)
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -74,8 +76,8 @@ def edit_profile():
             current_user.password = hashed_password
             db.session.commit()
             flash('Your account has been updated successfully!', 'success')
-            return redirect(url_for('home'))
-    return render_template('edit_profile.html', title='Edit Profile', form=form)
+            return render_template('home.html', title='Home', user=current_user)
+    return render_template('edit_profile.html', title='Edit Profile', form=form, user=current_user)
 
 @app.route('/send_parcel')
 def send_parcel():
@@ -139,6 +141,25 @@ def login_rider():
             flash('Rider not found. Please check your contact number.', 'danger')
 
     return render_template('login_rider.html', title='Rider Login', form=form)
-#if __name__ == "__main__":
-#    app.secret_key = '361840c28c03f7721cae23e428f6dca5'
-#    app.run(debug=True)
+
+@app.route('/request_pickup', methods=['GET', 'POST'])
+def request_pickup():
+    if request.method == 'POST':
+        parcel = Parcel(
+            sender_name=request.form.get('senderName'),
+            sender_email=request.form.get('senderEmail'),
+            sender_contact=request.form.get('senderContact'),
+            receiver_name=request.form.get('receiverName'),
+            receiver_contact=request.form.get('receiverContact'),
+            pickup_location=request.form.get('pickupLocation'),
+            delivery_location=request.form.get('deliveryLocation'),
+            pickup_time=request.form.get('pickupTime'),
+            description=request.form.get('description'),
+            category=request.form.get('parcelCategory'),
+            parcel_weight=request.form.get('parcelWeight')
+        )
+
+        db.session.add(parcel)
+        db.session.commit()
+        return render_template('home.html', title='Home')
+    return render_template('request_pickup.html')

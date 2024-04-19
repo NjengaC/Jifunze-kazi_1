@@ -13,11 +13,6 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    password = db.Column(db.String(100), nullable=False)
-
-    def __str__(self):
-        return f"User('{self.username}', '{self.email}', '{self.password}', '{self.image_file}')"
     password = db.Column(db.String(60), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
@@ -42,18 +37,19 @@ class Rider(db.Model, UserMixin):
 
 
 class Parcel(db.Model):
-    parcel_id = db.Column(db.Integer, primary_key=True)
-    parcel_name = db.Column(db.String(255), nullable=False)
-    sender_id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
     sender_name = db.Column(db.String(100), nullable=False)
-    receiver_id = db.Column(db.Integer)
+    sender_email = db.Column(db.String(100), nullable=False)
+    sender_contact = db.Column(db.String(20), nullable=False)
     receiver_name = db.Column(db.String(100))
+    receiver_contact = db.Column(db.String(20))
     pickup_location = db.Column(db.String(255), nullable=False)
     delivery_location = db.Column(db.String(255), nullable=False)
-    status = db.Column(db.String(20), nullable=False)
+    category = db.Column(db.String(60))
     pickup_time = db.Column(db.TIMESTAMP)
     delivery_time = db.Column(db.TIMESTAMP)
-
+    description = db.Column(db.String(400), nullable=False)
+    parcel_weight = db.Column(db.String(60))
     def __repr__(self):
         return f"Parcel('{self.parcel_name}', '{self.sender_name}', '{self.receiver_name}', '{self.status}')"
 

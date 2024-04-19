@@ -4,9 +4,10 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-
+from flask_sslify import SSLify
 
 app = Flask(__name__)
+sslify = SSLify(app)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new_password@localhost/vue'
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
