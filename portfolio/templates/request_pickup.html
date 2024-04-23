@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Pickup</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- Leaflet JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../static/scripts/maps.js"></script>
-    <script src="../static/scripts/steps.js"></script>
-    <script src="../static/scripts/script.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="../static/styles/ship.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='profiles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
@@ -47,82 +40,72 @@
 
         <!-- Form section -->
         <div class="send_form">
-            <form id="parcelForm" method="POST" action="/request_pickup">
+            <form id="parcelForm" method="POST" action="">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
                 <div class="form-group">
-                    <label for="senderName">Sender's Name:</label>
-                    <input type="text" id="senderName" name="senderName">
+                    {{ form.sender_name.label }}
+                    {{ form.sender_name(class="form-control") }}
+                    {{ form.sender_name.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="senderEmail">Sender's Email:</label>
-                    <input type="email" id="senderEmail" name="senderEmail">
+                    {{ form.sender_email.label }}
+                    {{ form.sender_email(class="form-control") }}
+                    {{ form.sender_email.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="senderContact">Sender's Contact:</label>
-                    <input type="text" id="senderContact" name="senderContact">
+                    {{ form.sender_contact.label }}
+                    {{ form.sender_contact(class="form-control") }}
+                    {{ form.sender_contact.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="receiverName">Receiver's Name:</label>
-                    <input type="text" id="receiverName" name="receiverName">
+                    {{ form.receiver_name.label }}
+                    {{ form.receiver_name(class="form-control") }}
+                    {{ form.receiver_name.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="receiverContact">Receiver's Contact:</label>
-                    <input type="text" id="receiverContact" name="receiverContact">
+                    {{ form.receiver_contact.label }}
+                    {{ form.receiver_contact(class="form-control") }}
+                    {{ form.receiver_contact.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="pickupLocation">Pickup Location:</label>
-                    <input type="text" id="pickupLocation" name="pickupLocation">
+                    {{ form.pickup_location.label }}
+                    {{ form.pickup_location(class="form-control") }}
+                    {{ form.pickup_location.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="deliveryLocation">Delivery Location:</label>
-                    <input type="text" id="deliveryLocation" name="deliveryLocation">
+                    {{ form.delivery_location.label }}
+                    {{ form.delivery_location(class="form-control") }}
+                    {{ form.delivery_location.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="6" style="width: 100%; margin-bottom; 10px;"></textarea>
+                    {{ form.description.label }}
+                    {{ form.description(class="form-control") }}
+                    {{ form.description.errors }}
                 </div>
                 <div class="form-group">
-                    <div class="preset-dropdowns">
-                        <label for="parcelCategory">Category:</label>
-                        <select id="parcelCategory" name="parcelCategory">
-                            <option value="Electronics">Electronics</option>
-                            <option value="Clothing">Clothing</option>
-                            <option value="Books">Books</option>
-                            <!-- Add more options as needed , This will later be
-				implemented to function dynammically -->
-                        </select>
-                        <label for="parcelWeight">Approximate Weight:</label>
-                        <select id="parcelWeight" name="parcelWeight">
-                            <option value="Under 1kg">Under 1kg</option>
-                            <option value="1-5kg">1-5kg</option>
-                            <option value="5-10kg">5-10kg</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                <div class="form-group">
-                    <label for="pickupTime">Pickup Time:</label>
-                    <input type="datetime-local" id="pickupTime" name="pickupTime">                </div>
+                    {{ form.category.label }}
+                    {{ form.category(class="form-control") }}
+                    {{ form.category.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="currentLocation">Use current location as pickup location</label>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
+                    {{ form.parcel_weight.label }}
+                    {{ form.parcel_weight(class="form-control") }}
+                    {{ form.parcel_weight.errors }}
                 </div>
-                <button type="submit">Submit</button>
+                <div class="form-group">
+                    {{ form.pickup_time.label }}
+                    {{ form.pickup_time(class="form-control") }}
+                    {{ form.pickup_time.errors }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
         <div class="settings">Settings</div>
     </main>
 
-    <div id="map" style="height: 400px;"></div>
-
-    <script src="../static/scripts/maps.js"></script>
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <!-- Your custom JavaScript -->
-    <script src="../static/scripts/script.js"></script>
-    <script src="../static/scripts/steps.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <footer>
         <div class="footer-links">
             <a href="#">Link 1</a>

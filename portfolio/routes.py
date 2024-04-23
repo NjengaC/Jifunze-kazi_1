@@ -2,7 +2,7 @@ from flask import render_template, flash, request, redirect, url_for, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import json
 import stripe
-from portfolio.forms import LoginRiderForm, RegistrationForm, LoginForm, UpdateAccountForm, RiderRegistrationForm
+from portfolio.forms import LoginRiderForm, RegistrationForm, LoginForm, UpdateAccountForm, RiderRegistrationForm, ParcelForm
 from portfolio.models import User, Rider, Parcel
 import secrets
 from portfolio import app, db, bcrypt
@@ -142,24 +142,25 @@ def login_rider():
 
     return render_template('login_rider.html', title='Rider Login', form=form)
 
+
 @app.route('/request_pickup', methods=['GET', 'POST'])
 def request_pickup():
-    if request.method == 'POST':
+    form = ParcelForm()
+    if form.validate_on_submit():
         parcel = Parcel(
-            sender_name=request.form.get('senderName'),
-            sender_email=request.form.get('senderEmail'),
-            sender_contact=request.form.get('senderContact'),
-            receiver_name=request.form.get('receiverName'),
-            receiver_contact=request.form.get('receiverContact'),
-            pickup_location=request.form.get('pickupLocation'),
-            delivery_location=request.form.get('deliveryLocation'),
-            pickup_time=request.form.get('pickupTime'),
-            description=request.form.get('description'),
-            category=request.form.get('parcelCategory'),
-            parcel_weight=request.form.get('parcelWeight')
+            sender_name=form.sender_name.data,
+            sender_email=form.sender_email.data,
+            sender_contact=form.sender_contact.data,
+            receiver_name=form.receiver_name.data,
+            receiver_contact=form.receiver_contact.data,
+            pickup_location=form.pickup_location.data,
+            delivery_location=form.delivery_location.data,
+            category=form.category.data,
+            pickup_time=form.pickup_time.data,
+            description=form.description.data,
+            parcel_weight=form.parcel_weight.data
         )
-
         db.session.add(parcel)
         db.session.commit()
-        return render_template('home.html', title='Home')
-    return render_template('request_pickup.html')
+        return redirect(url_for('payment'))
+    return render_template('request_pickup.html', form=form)

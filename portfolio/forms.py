@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, Optional, ValidationError
 from flask_login import current_user
 from portfolio.models import User
@@ -60,3 +60,16 @@ class LoginRiderForm(FlaskForm):
     contact_number = StringField('Contact Number', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class ParcelForm(FlaskForm):
+    sender_name = StringField('Sender\'s Name', validators=[DataRequired(), Length(max=100)])
+    sender_email = StringField('Sender\'s Email', validators=[DataRequired(), Email(), Length(max=100)])
+    sender_contact = StringField('Sender\'s Contact', validators=[DataRequired(), Length(max=20)])
+    receiver_name = StringField('Receiver\'s Name', validators=[Length(max=100)])
+    receiver_contact = StringField('Receiver\'s Contact', validators=[Length(max=20)])
+    pickup_location = StringField('Pickup Location', validators=[DataRequired(), Length(max=255)])
+    delivery_location = StringField('Delivery Location', validators=[DataRequired(), Length(max=255)])
+    category = SelectField('Category', choices=[('Electronics', 'Electronics'), ('Clothing', 'Clothing'), ('Books', 'Books')])
+    pickup_time = DateTimeField('Pickup Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired(), Length(max=400)])
+    parcel_weight = SelectField('Approximate Weight', choices=[('Under 1kg', 'Under 1kg'), ('1-5kg', '1-5kg'), ('5-10kg', '5-10kg')])
