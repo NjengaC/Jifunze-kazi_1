@@ -7,12 +7,9 @@ from portfolio.models import User, Rider, Parcel
 import secrets
 from portfolio import app, db, bcrypt
 from sqlalchemy.exc import IntegrityError
-<<<<<<< HEAD
 #from here is where i started modifing 
 from flask import render_template
-=======
 from geopy.distance import geodesic
->>>>>>> f931801727f5730e32911716b3ba2e025110c5a5
 
 @app.route('/')
 @app.route('/home')
@@ -168,10 +165,8 @@ def request_pickup():
         )
         db.session.add(parcel)
         db.session.commit()
-<<<<<<< HEAD
         return redirect(url_for('payment'))
     return render_template('request_pickup.html', form=form)
-=======
         return render_template('home.html', title='Home')
     return render_template('request_pickup.html')
 
@@ -214,4 +209,3 @@ def allocate_parcel_to_driver(driver, parcel):
     parcel.status = 'allocated'
     parcel.driver_id = driver.id
     db.session.commit()
->>>>>>> df07c4849d93da071ebe31027090002019b90968
