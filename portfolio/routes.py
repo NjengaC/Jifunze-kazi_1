@@ -7,6 +7,8 @@ from portfolio.models import User, Rider, Parcel
 import secrets
 from portfolio import app, db, bcrypt
 from sqlalchemy.exc import IntegrityError
+#from here is where i started modifing 
+from flask import render_template
 
 @app.route('/')
 @app.route('/home')

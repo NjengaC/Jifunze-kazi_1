@@ -1,21 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="sider" style="float: left; width: 50%; display: flex;">
-  <section class="ship" class="companies">
-    <!-- Background image will be set here -->
-    <h2>Ship your parcels with ease!</h2>
-    <br><br>
-    <p class="sign_up">Sign up now to get started.</p>
-    <div class="button-container">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <section class="ship">
+                <!-- Background image will be set here -->
+                <h2>Ship your parcels with ease!</h2>
+                <p class="sign-up">Sign up now to get started.</p>
+                <div class="button-container">
+                    <!-- Add button(s) here -->
+                </div>
+                <div>
+                    <h2>Click Below to view available Riders</h2>
+                    <button id="view-riders" onclick="showRiders()">View Riders</button>
+                    <ul id="rider-list" style="display: none;">
+                        <!-- List of available riders will be displayed here -->
+                    </ul>
+                </div>
+            </section>
+        </div>
     </div>
-    <div>
-      <h2>Click Below to view available Riders</h2>
-      <button id="companies" onclick="showCompanies()">View </button>
-      <ul id="company-list" style="display: none;">
-        <!-- List of available riders will be displayed here -->
-      </ul>
-    </div>
-  </section>
 </div>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
-{% endblock content %}
+{% endblock%}
