@@ -32,4 +32,13 @@ function populateCompanyList(companies) {
         companyList.appendChild(listItem);
     });
 }
+//this is for the home page 
+function showRiders() {
+	    var riderList = document.getElementById('rider-list');
+	    if (riderList.style.display === 'none') {
+		            riderList.style.display = 'block';
+		        } else {
+				        riderList.style.display = 'none';
+ }
+}
 
