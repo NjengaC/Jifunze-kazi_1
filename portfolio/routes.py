@@ -7,6 +7,7 @@ from portfolio.models import User, Rider, Parcel
 import secrets
 from portfolio import app, db, bcrypt
 from sqlalchemy.exc import IntegrityError
+from geopy.distance import geodesic
 
 @app.route('/')
 @app.route('/home')
@@ -163,3 +164,43 @@ def request_pickup():
         db.session.commit()
         return render_template('home.html', title='Home')
     return render_template('request_pickup.html')
+
+@app.route('/allocate_parcel', methods=['GET'])
+def allocate_parcel():
+    """
+    Allocates a parcel delivery to a rider
+    """
+    parcel_id = request.args.get('parcel_id')
+    parcel = Parcel.query.filter_by(id=parcel_id).first()
+    if not parcel:
+        return jsonify({'error': 'Parcel npt found'})
+    pickup_location = parcel.pickup_location
+    available_drivers = Deliver.query.all()
+    closest_driver = None
+    min_distance = float('inf')
+    for driver in available_drivers:
+        distance = calculate_distance(pickup_location, driver.current_location)
+        if distance < min_distance:
+            closest_driver = driver
+            min_distance = distance
+    if closest_driver:
+        allocate_parcel_to_driver(closest_driver, parcel)
+    return jsonify({'message': 'Parcel allocated to the closest driver'})
+
+
+def calculate_distance(location1, location2):
+    """
+    Implements distance calculation logic
+    It uses the location format: (latitude, longitude)
+    """
+    distance = geodesic(location1, location2).kilometers
+    return distance
+
+
+def allocate_parcel_to_driver(driver, parcel):
+    """
+    Implements parcel allocation logic
+    """
+    parcel.status = 'allocated'
+    parcel.driver_id = driver.id
+    db.session.commit()
