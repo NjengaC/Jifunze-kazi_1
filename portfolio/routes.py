@@ -167,8 +167,6 @@ def request_pickup():
         db.session.commit()
         return redirect(url_for('payment'))
     return render_template('request_pickup.html', form=form)
-        return render_template('home.html', title='Home')
-    return render_template('request_pickup.html')
 
 @app.route('/allocate_parcel', methods=['GET'])
 def allocate_parcel():
